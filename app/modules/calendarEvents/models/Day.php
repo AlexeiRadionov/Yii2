@@ -3,16 +3,16 @@
 	use app\modules\calendarEvents\models\UserEvents;
 
 	class Day extends UserEvents {
-		public $selectedDate;
+		public $currentDate;
 		public $eventsDay = [];
-		public $selectedDay;
+		public $currentDay;
 
 		public function __construct($config=[]) {
 	    	parent::__construct($config);
 	    }
 
 		public function isWork() {
-			$w = date_create($this -> selectedDate) -> format('w');
+			$w = date_create($this -> currentDate) -> format('w');
 			
 			return !in_array($w, [0, 6]);
 		}
@@ -21,18 +21,18 @@
 			return !$this -> isWork();
 		}
 
-		public function getselectedDate($selectedDate) {
-			$this -> selectedDate = $selectedDate;
+		public function getCurrentDate($currentDate) {
+			$this -> currentDate = $currentDate;
 			if ($this -> isWeekend()) {
-				$this -> selectedDay = 'выходной день';
+				$this -> currentDay = 'weekend';
 			} else {
-				$this -> selectedDay = 'рабочий день';
+				$this -> currentDay = 'work day';
 			}
 		}
 
 		public function getEventsDay($eventsUser) {
 			foreach ($eventsUser as $key => $value) {
-				if ($value['startDay'] <= $this -> selectedDate && $this -> selectedDate <= $value['endDay']) {
+				if (strtotime($value['startDay']) <= strtotime($this -> currentDate) && strtotime($this -> currentDate) <= strtotime($value['endDay'])) {
 					array_push($this -> eventsDay, $value);
 				}
 			}
