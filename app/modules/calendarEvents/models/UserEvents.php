@@ -14,5 +14,13 @@
 	    	parent::__construct($config);
 	    	$this -> setAttributes($attributes, false);
 	    }
+
+	    public function rules() {
+	        return [
+	            [['title','description'], 'required'],
+	            [['startDay','endDay'], 'date', 'format' => 'yyyy-mm-dd'],
+	            ['isBlock', 'boolean']
+	        ];
+	    }
 	}
 ?>
