@@ -8,6 +8,7 @@
 	    public $endDay;
 	    public $idAuthor;
 	    public $description;
+	    public $isBlock = false;
 
 	    public function __construct($config=[], $attributes=[]) {
 	    	parent::__construct($config);
