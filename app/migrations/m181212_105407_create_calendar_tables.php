@@ -36,11 +36,6 @@ class m181212_105407_create_calendar_tables extends Migration
         'id_user' => $this->integer()->notNull(),
         'id_event' => $this->integer()
         ]);
-
-        // создаём индекс для поля id_user в таблице events
-        $this->createIndex('events_user_index', 'events', 'id_user');
-        // создаём индекс для поля id_user в таблице events_users
-        $this->createIndex('events_users_user_index', 'events_users', 'id_user');
         
         // создаём внешний ключ для поля id_user в таблице events
         $this->addForeignKey('foreign_key_events', 'events', 'id_user', 'users', 'id_users', 'cascade');
