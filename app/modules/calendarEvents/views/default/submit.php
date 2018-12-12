@@ -1,2 +1,2 @@
 <a href="/calendarEvents">List events</a>
-<p>Event successfull saved</p>
+<p>Event successfully saved</p>
