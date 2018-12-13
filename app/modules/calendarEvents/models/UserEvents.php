@@ -6,9 +6,9 @@
 	    public $title;
 	    public $startDay;
 	    public $endDay;
-	    public $idAuthor;
+	    public $id_user;
 	    public $description;
-	    public $isBlock = false;
+	    public $isBlock;
 
 	    public function __construct($config=[], $attributes=[]) {
 	    	parent::__construct($config);

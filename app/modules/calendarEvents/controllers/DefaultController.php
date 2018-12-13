@@ -3,6 +3,7 @@
 
 	use Yii;
 	use app\modules\calendarEvents\models\UserEvents;
+	use app\modules\calendarEvents\models\EventsDAO;
 	use app\modules\calendarEvents\models\Day;
 	use yii\web\Controller;
 
@@ -11,28 +12,11 @@
 	 */
 	class DefaultController extends Controller {
 		public $eventsUser;
+		public $id_user = 1;
 
 		public function getEventsUser() {
-	    	$eventsUser = [
-	    		new UserEvents([], [
-	    			'title' => 'Event 1',
-	    			'description' => 'Lorem ipsum dolor.',
-	    			'startDay' => '07-11-2018',
-	    			'endDay' => '15-12-2018'
-	    		]),
-	    		new UserEvents([], [
-	    			'title' => 'Event 2',
-	    			'description' => 'Lorem ipsum dolor.',
-	    			'startDay' => '07-12-2018',
-	    			'endDay' => '12-12-2018'
-	    		]),
-	    		new UserEvents([], [
-	    			'title' => 'Event 3',
-	    			'description' => 'Lorem ipsum dolor.',
-	    			'startDay' => '23-12-2018',
-	    			'endDay' => '31-12-2018'
-	    		])
-	    	];
+			$objectEventsDAO = new EventsDAO;
+			$eventsUser = $objectEventsDAO -> getEvents();
 
 	    	$this -> eventsUser = $eventsUser;
 	    }
@@ -48,7 +32,7 @@
 	    }
 
 	    public function actionDay() {
-	    	$currentDate = date('d-m-Y');
+	    	$currentDate = date('Y-m-d');
 	    	$day = new Day;
 	    	$day -> getCurrentDate($currentDate);
 	    	$this -> getEventsUser();
@@ -63,10 +47,19 @@
 
 	    public function actionForm() {
 		    $model = new \app\modules\calendarEvents\models\UserEvents();
+		    if (isset($_GET['id'])) {
+		        $id_events = (int)strip_tags($_GET['id']);
+		    } else {
+		    	$id_events = 0;
+		    }
 
 		    if ($model->load(Yii::$app->request->post())) {
 		        if ($model->validate()) {
-		            return $this -> redirect(['success']);
+		        	$event = new EventsDAO;
+		        	
+		        	if ($event -> createEvent($model, $this -> id_user, $id_events)) {
+		        		return $this -> redirect(['success']);
+		        	}
 		        }
 		    }
 
