@@ -50,7 +50,6 @@ class m181212_105407_create_calendar_tables extends Migration
      */
     public function safeDown()
     {
-        echo "m181212_105407_create_calendar_tables cannot be reverted.\n";
 
         $this -> dropTable('events_users');
         $this -> dropTable('events');
