@@ -6,17 +6,23 @@
 
 	class EventsDAO extends Model {
 		
-		public function createEvent($event, $id_user) {
+		public function createEvent($event, $id_user, $id_events) {
 			$db = Yii::$app -> db;
 
-			$result = $db -> createCommand() -> insert('events', [
-				'title' => $event -> title,
-				'startDay' => $event -> startDay,
-				'endDay' => $event -> endDay,
-				'id_user' => $id_user,
-				'description' => $event -> description,
-				'isBlock' => $event -> isBlock
-			]) -> execute();
+			if ($id_events == 0) {
+				$result = $db -> createCommand() -> insert('events', [
+					'title' => $event -> title,
+					'startDay' => $event -> startDay,
+					'endDay' => $event -> endDay,
+					'id_user' => $id_user,
+					'description' => $event -> description,
+					'isBlock' => $event -> isBlock
+				]) -> execute();
+			} else {
+				if ($this -> editEvent($event, $id_events)) {
+				 	$result = 1;
+				}
+			}
 
 			return $result > 0;
 		}
