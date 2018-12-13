@@ -47,17 +47,17 @@
 
 	    public function actionForm() {
 		    $model = new \app\modules\calendarEvents\models\UserEvents();
+		    if (isset($_GET['id'])) {
+		        $id_events = (int)strip_tags($_GET['id']);
+		    } else {
+		    	$id_events = 0;
+		    }
 
 		    if ($model->load(Yii::$app->request->post())) {
 		        if ($model->validate()) {
 		        	$event = new EventsDAO;
-		        	if (isset($_GET['id'])) {
-		        		$id_events = (int)strip_tags($_GET['id']);
-
-		        		if ($event -> editEvent($model, $id_events)) {
-		        		return $this -> redirect(['success']);
-		        		}
-		        	} else if ($event -> createEvent($model, $this -> id_user)) {
+		        	
+		        	if ($event -> createEvent($model, $this -> id_user, $id_events)) {
 		        		return $this -> redirect(['success']);
 		        	}
 		        }
