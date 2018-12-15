@@ -27,15 +27,6 @@
 			return $result > 0;
 		}
 
-		public function getEvents() {
-			$db = Yii::$app -> db;
-
-			$result = [];
-			$result = $db -> createCommand('SELECT * FROM events') -> queryAll();
-			
-			return $result;
-		}
-
 		public function editEvent($event, $id_events) {
 			$db = Yii::$app -> db;
 
