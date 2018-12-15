@@ -2,7 +2,8 @@
 	namespace app\modules\calendarEvents\controllers;
 
 	use Yii;
-	use app\modules\calendarEvents\models\UserEvents;
+	use app\modules\calendarEvents\models\Events;
+	use yii\filters\AccessControl;
 	use app\modules\calendarEvents\models\EventsDAO;
 	use app\modules\calendarEvents\models\Day;
 	use yii\web\Controller;
@@ -11,32 +12,55 @@
 	 * Default controller for the `calendarEvents` module
 	 */
 	class DefaultController extends Controller {
-		public $eventsUser;
-		public $id_user = 1;
 
-		public function getEventsUser() {
-			$objectEventsDAO = new EventsDAO;
-			$eventsUser = $objectEventsDAO -> getEvents();
-
-	    	$this -> eventsUser = $eventsUser;
-	    }
+		public function behaviors() {
+			return [
+				'access' => [
+					'class' => AccessControl::className(),
+					'only'  => ['form'],
+					'rules' => [
+						[
+						'actions' => ['index'],
+						'allow' => true,
+						'roles' => ['?']
+						],
+						[
+						'actions' => ['form'],
+						'allow' => true,
+						'roles' => ['admin', 'simple'],
+						],
+					],
+				]
+			];
+		}
 
 	    /**
 	     * Renders the index view for the module
 	     * @return string
 	     */
 	    public function actionIndex() {
-	    	$this -> getEventsUser();
+	    	$isAdmin = Yii::$app->user->can('admin');
+	        $find = Events::find();
+	        
+	        if(!$isAdmin) {
+	            $find = $find->where([
+	                'id_user' => Yii::$app->user->id,
+	            ]);
+	        }
 
-	        return $this->render('index', ['eventsUser' => $this -> eventsUser]);
+	    	$eventsUser = $find->all();
+
+	        return $this->render('index', ['eventsUser' => $eventsUser]);
 	    }
 
 	    public function actionDay() {
-	    	$currentDate = date('Y-m-d');
+	    	$currentDate = date('Y-m-d H:i:s');
 	    	$day = new Day;
 	    	$day -> getCurrentDate($currentDate);
-	    	$this -> getEventsUser();
-	    	$day -> getEventsDay($this -> eventsUser);
+	    	$eventsUser = Events::findAll([
+	    		'id_user' => Yii::$app -> user -> id
+	    	]);
+	    	$day -> getEventsDay($eventsUser);
 
 	    	return $this->render('viewDay', 
 	    		[
@@ -46,7 +70,7 @@
 	    }
 
 	    public function actionForm() {
-		    $model = new \app\modules\calendarEvents\models\UserEvents();
+		    $model = new \app\modules\calendarEvents\models\Events();
 		    if (isset($_GET['id'])) {
 		        $id_events = (int)strip_tags($_GET['id']);
 		    } else {
@@ -54,10 +78,11 @@
 		    }
 
 		    if ($model->load(Yii::$app->request->post())) {
+		    	$model -> id_user = Yii::$app -> user -> id;
 		        if ($model->validate()) {
 		        	$event = new EventsDAO;
 		        	
-		        	if ($event -> createEvent($model, $this -> id_user, $id_events)) {
+		        	if ($event -> createEvent($model, $model -> id_user, $id_events)) {
 		        		return $this -> redirect(['success']);
 		        	}
 		        }
