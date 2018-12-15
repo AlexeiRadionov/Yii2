@@ -5,6 +5,7 @@
 ?>
 
 <a class="btn btn-primary" href="/calendarEvents/default/form">Add event</a>
+<hr>
 
 <div>
     <h1>My events</h1>
