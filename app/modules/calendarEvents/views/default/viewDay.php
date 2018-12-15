@@ -5,9 +5,11 @@
 ?>
 
 <a class="btn btn-primary" href="/calendarEvents/default/form">Add event</a>
+<hr>
 
 <h4>Today: <?php echo date('d-m-Y') . " $day"?></h4>
 <h4>Events today:</h4>
+<hr>
 
 <?php foreach ($eventsDay as $event): ?>
 	<div>
