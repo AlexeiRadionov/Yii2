@@ -19,14 +19,16 @@
             </a>
         </h3>
 
-        <p>Start date: <?php echo $event['startDay'] ?></p>
-        <p>End date: <?php echo $event['endDay'] ?></p>
+        <p>Start date: <?php echo date('d.m.Y', strtotime($event['startDay'])) ?></p>
+        <p>End date: <?php echo date('d.m.Y', strtotime($event['endDay'])) ?></p>
         
         <h4>Description</h4>
         
         <p><?php echo $event['description'] ?></p>
         <p><?php echo ($event['isBlock'] == 0)?"is block: no":"is block: yes";
              ?></p>
+
+        <h4>Creator: <?php echo $event -> user -> username; ?></h4>
 
         <a class="btn btn-danger" href="#">Delete</a>
         <?php echo'<a class="btn btn-info" href="/calendarEvents/default/form?id=' . $event['id_events'] . '">' ?>Edit</a>
