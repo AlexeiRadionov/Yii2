@@ -6,6 +6,8 @@
 
     class User extends ActiveRecord implements \yii\web\IdentityInterface {
 
+        public $password;
+
         /**
          * {@inheritdoc}
          */
@@ -49,8 +51,8 @@
         /**
          * {@inheritdoc}
          */
-        public function validateAuthKey($authkey) {
-            return $this->getAuthKey() === $authkey;
+        public function validateAuthKey($authKey) {
+            return $this->getAuthKey() === $authKey;
         }
 
         /**
@@ -69,6 +71,53 @@
 
         public function generateAuthKey() {
             $this->auth_key = Yii::$app -> security -> generateRandomString();
+        }
+
+        public function createUser($user) {
+            $db = Yii::$app -> db;
+            
+            if ($this -> findByUsername($user -> username)) {
+                $result = 0;
+
+                return $result > 0;
+            } else {
+                $this -> setPassword($user -> password);
+                $this -> generateAuthKey();
+
+                $result = $db -> createCommand() -> insert('user', [
+                    'username' => $user -> username,
+                    'email' => $user -> email,
+                    'password_hash' => $this -> password_hash,
+                    'auth_key' => $this->auth_key
+                ]) -> execute();   
+            }
+
+            $id = User::find() -> select('id_user') -> where(['username' => $user -> username]) -> asArray() ->all();
+            $id_user = (int)$id[0]['id_user'];
+            
+            if ($this -> addAssign('simple', $id_user)) {
+                return $result > 0;
+            }
+        }
+
+        public function rules() {
+            return [
+                [['username', 'password', 'email'], 'required'],
+            ];
+        }
+
+        public function addAssign($role, $userId) {
+            $authManager = Yii::$app -> authManager;
+            $modelRole = $authManager -> getRole($role);
+            
+            if(is_null($modelRole)) {
+                $result = 0;
+                return $result > 0;
+            }
+            
+            $authManager -> assign($modelRole, $userId);
+            $result = 1;
+            return $result > 0;
         }
     }
 ?>
