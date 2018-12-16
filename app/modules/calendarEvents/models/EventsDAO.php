@@ -13,7 +13,7 @@
 				$result = $db -> createCommand() -> insert('events', [
 					'title' => $event -> title,
 					'startDay' => $event -> startDay,
-					'endDay' => $event -> endDay,
+					'endDay' => date('Y-m-d H:i:s', strtotime($event -> endDay . '+1 days -1 second')),
 					'id_user' => $id_user,
 					'description' => $event -> description,
 					'isBlock' => $event -> isBlock
@@ -33,7 +33,7 @@
 			$result = Yii::$app->db->createCommand() -> update('events', [
 				'title' => $event -> title,
 				'startDay' => $event -> startDay,
-				'endDay' => $event -> endDay,
+				'endDay' => date('Y-m-d H:i:s', strtotime($event -> endDay . '+1 days -1 second')),
 				'description' => $event -> description,
 				'isBlock' => $event -> isBlock
 			], "id_events = $id_events") -> execute();
