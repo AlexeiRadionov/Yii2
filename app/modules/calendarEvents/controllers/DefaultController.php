@@ -22,7 +22,7 @@
 						[
 						'actions' => ['index'],
 						'allow' => true,
-						'roles' => ['?']
+						'roles' => ['@']
 						],
 						[
 						'actions' => ['form'],
