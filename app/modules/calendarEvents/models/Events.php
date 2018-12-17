@@ -10,7 +10,7 @@
 	        return [
 	            [['title','description'], 'required'],
 	            [['startDay', 'endDay'], 'date', 'format' => 'yyyy-mm-dd'],
-	            /*['endDay', 'compare', 'compareAttribute' => 'startDay', 'operator' => '>='],*/
+	            ['endDay', 'compare', 'compareAttribute' => 'startDay', 'operator' => '>=', 'enableClientValidation' => false],
 	            ['endDay', 'default', 'value' => function($model) {
 	            		return $model -> startDay;
 	            }],
