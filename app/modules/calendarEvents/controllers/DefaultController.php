@@ -50,7 +50,11 @@
 
 	    	$eventsUser = $find->all();
 
-	        return $this->render('index', ['eventsUser' => $eventsUser]);
+	        return $this->render('index',
+	        	[
+	        		'eventsUser' => $eventsUser,
+	        		'date' => Yii::$app->params['dateFormat'],
+	    		]);
 	    }
 
 	    public function actionDay() {
@@ -64,8 +68,9 @@
 
 	    	return $this->render('viewDay', 
 	    		[
-	    		'day' => $day -> currentDay,
-	    		'eventsDay' => $day -> eventsDay
+	    			'day' => $day -> currentDay,
+	    			'eventsDay' => $day -> eventsDay,
+	    			'date' => Yii::$app->params['dateFormat'],
 	    		]);
 	    }
 
