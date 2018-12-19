@@ -109,7 +109,7 @@ class EventsController extends Controller {
                 'model' => $model,
             ]);
         } else {
-            throw new HttpException(403, 'Error: action prohibited');         
+            throw new HttpException(403, 'You are not allowed to perform this action.');         
         }
     }
 
@@ -127,7 +127,7 @@ class EventsController extends Controller {
             $this->findModel($id)->delete();
             return $this->redirect(['index']);
         } else {
-            throw new HttpException(403, 'Error: action prohibited');
+            throw new HttpException(403, 'You are not allowed to perform this action.');
         }
     }
 
