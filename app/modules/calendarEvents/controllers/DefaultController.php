@@ -53,7 +53,7 @@
 	        return $this->render('index',
 	        	[
 	        		'eventsUser' => $eventsUser,
-	        		'date' => Yii::$app->params['dateFormat'],
+	        		'date' => Yii::$app->params['dateFormatView'],
 	    		]);
 	    }
 
@@ -70,7 +70,7 @@
 	    		[
 	    			'day' => $day -> currentDay,
 	    			'eventsDay' => $day -> eventsDay,
-	    			'date' => Yii::$app->params['dateFormat'],
+	    			'date' => Yii::$app->params['dateFormatView'],
 	    		]);
 	    }
 
