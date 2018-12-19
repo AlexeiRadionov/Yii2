@@ -19,8 +19,8 @@
             </a>
         </h3>
 
-        <p>Start date: <?php echo $date($event['startDay']); ?></p>
-        <p>End date: <?php echo $date($event['endDay']); ?></p>
+        <p>Start date: <?php echo date($date, strtotime($event['startDay'])); ?></p>
+        <p>Start date: <?php echo date($date, strtotime($event['endDay'])); ?></p>
         
         <h4>Description</h4>
         
