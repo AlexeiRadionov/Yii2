@@ -1,8 +1,8 @@
 <?php
 	namespace app\modules\calendarEvents\models;
-	use app\modules\calendarEvents\models\UserEvents;
+	use app\modules\calendarEvents\models\Events;
 
-	class Day extends UserEvents {
+	class Day extends Events {
 		public $currentDate;
 		public $eventsDay = [];
 		public $currentDay;

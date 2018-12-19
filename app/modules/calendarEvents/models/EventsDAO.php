@@ -13,7 +13,7 @@
 				$result = $db -> createCommand() -> insert('events', [
 					'title' => $event -> title,
 					'startDay' => $event -> startDay,
-					'endDay' => $event -> endDay,
+					'endDay' => date('Y-m-d H:i:s', strtotime($event -> endDay . '+1 days -1 second')),
 					'id_user' => $id_user,
 					'description' => $event -> description,
 					'isBlock' => $event -> isBlock
@@ -27,22 +27,13 @@
 			return $result > 0;
 		}
 
-		public function getEvents() {
-			$db = Yii::$app -> db;
-
-			$result = [];
-			$result = $db -> createCommand('SELECT * FROM events') -> queryAll();
-			
-			return $result;
-		}
-
 		public function editEvent($event, $id_events) {
 			$db = Yii::$app -> db;
 
 			$result = Yii::$app->db->createCommand() -> update('events', [
 				'title' => $event -> title,
 				'startDay' => $event -> startDay,
-				'endDay' => $event -> endDay,
+				'endDay' => date('Y-m-d H:i:s', strtotime($event -> endDay . '+1 days -1 second')),
 				'description' => $event -> description,
 				'isBlock' => $event -> isBlock
 			], "id_events = $id_events") -> execute();
