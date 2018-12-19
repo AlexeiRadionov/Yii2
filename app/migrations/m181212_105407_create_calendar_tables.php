@@ -20,7 +20,9 @@ class m181212_105407_create_calendar_tables extends Migration
             'endDay' => $this->timestamp()->defaultExpression("now()"),
             'id_user' => $this->integer()->notNull(),
             'description' => $this->text()->notNull(),
-            'isBlock' => $this->boolean()->defaultExpression("false")
+            'isBlock' => $this->boolean()->defaultExpression("false"),
+            'created_at' => $this->timestamp()->defaultExpression("now()")->notNull(),
+            'updated_at' => $this->timestamp()->defaultExpression("now()")->notNull()
         ]);
 
         // создаём таблицу пользователей
