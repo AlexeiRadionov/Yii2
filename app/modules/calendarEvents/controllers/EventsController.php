@@ -100,17 +100,13 @@ class EventsController extends Controller {
     public function actionUpdate($id) {
         $model = $this->findModel($id);
 
-        if ($model -> id_user == Yii::$app->user->id) {
-            if ($model->load(Yii::$app->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id_events]);
-            }
-
-            return $this->render('update', [
-                'model' => $model,
-            ]);
-        } else {
-            throw new HttpException(403, 'You are not allowed to perform this action.');         
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id_events]);
         }
+
+        return $this->render('update', [
+            'model' => $model,
+        ]);
     }
 
     /**
@@ -121,14 +117,8 @@ class EventsController extends Controller {
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionDelete($id) {
-        $model = $this->findModel($id);
-
-        if ($model -> id_user == Yii::$app->user->id) {
-            $this->findModel($id)->delete();
-            return $this->redirect(['index']);
-        } else {
-            throw new HttpException(403, 'You are not allowed to perform this action.');
-        }
+        $this->findModel($id)->delete();
+        return $this->redirect(['index']);    
     }
 
     /**
@@ -140,7 +130,11 @@ class EventsController extends Controller {
      */
     protected function findModel($id) {
         if (($model = Events::findOne($id)) !== null) {
+            if ($model -> id_user == Yii::$app->user->id) {
             return $model;
+            } else {
+            throw new HttpException(403, 'You are not allowed to perform this action.');
+            }
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
