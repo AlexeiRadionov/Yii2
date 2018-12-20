@@ -2,6 +2,7 @@
     $this->title = 'List events';
     $this->params['breadcrumbs'][] = $this->title;
     $this->params['breadcrumbs'][] = ['url' => '/calendarEvents/default/day', 'label' => 'Events today'];
+    $this->params['breadcrumbs'][] = ['url' => '/calendarEvents/user', 'label' => 'Users'];
 ?>
 
 <a class="btn btn-primary" href="/calendarEvents/default/form">Add event</a>

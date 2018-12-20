@@ -2,6 +2,6 @@
 
 return [
     'adminEmail' => 'admin@example.com',
-    'dateFormatView' => 'd.m.Y H:i:s',
+    'dateFormatView' => 'd.m.Y',
     'dateFormatModel' => 'yyyy-mm-dd',
 ];

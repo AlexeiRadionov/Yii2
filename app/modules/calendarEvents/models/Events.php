@@ -3,6 +3,8 @@
 	
 	use app\models\User;
 	use yii\db\ActiveRecord;
+	use yii\behaviors\TimestampBehavior;
+	use yii\db\Expression;
 	use Yii;
 
 	class Events extends ActiveRecord {
@@ -23,5 +25,19 @@
 	    public function getUser() {
 	        return $this->hasOne(User::class, ['id_user' => 'id_user']);
 	    }
+
+	    public function behaviors() {
+			return [
+				[
+				'class' => TimestampBehavior::className(),
+				'attributes' => [
+				ActiveRecord::EVENT_BEFORE_INSERT => ['created_at',
+				'updated_at'],
+				ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
+				],
+				'value' => new Expression('NOW()')
+				],
+			];
+		}
 	}
 ?>
