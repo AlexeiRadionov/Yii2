@@ -44,7 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'attribute' => 'End Day',
             'value' => function($data){return date(Yii::$app->params['dateFormatView'], strtotime($data -> endDay));}
             ],
-            'id_user',
+            //'id_user',
             'description:ntext',
             'isBlock',
             'created_at',

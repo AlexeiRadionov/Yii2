@@ -41,7 +41,7 @@ $this->params['breadcrumbs'][] = ['url' => '/calendarEvents/user', 'label' => 'U
             'attribute' => 'End Day',
             'value' => function($data){return date(Yii::$app->params['dateFormatView'], strtotime($data -> endDay));}
             ],
-            'id_user',
+            //'id_user',
             //'description:ntext',
             //'isBlock',
 
