@@ -4,6 +4,7 @@ namespace app\modules\calendarEvents\controllers;
 
 use Yii;
 use app\modules\calendarEvents\models\Events;
+use app\modules\calendarEvents\models\Day;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -59,6 +60,29 @@ class EventsController extends Controller {
         return $this->render('index', [
             'dataProvider' => $dataProvider,
         ]);
+    }
+
+    public function actionDay() {
+        $currentDate = date('Y-m-d');
+        $day = new Day;
+        $day -> getCurrentDate($currentDate);
+
+        $find = Events::find();
+        $find = $find
+                ->andWhere(['id_user' => Yii::$app->user->id])
+                ->andWhere(["<=", "CAST(startDay AS DATE)", date('Y-m-d')])
+                ->andWhere([">=", "CAST(endDay AS DATE)", date('Y-m-d')]);
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $find,
+        ]);
+
+        return $this->render('index', 
+            [
+                'day' => $day -> currentDay,
+                'dataProvider' => $dataProvider,
+                'date' => Yii::$app->params['dateFormatView'],
+            ]);
     }
 
     /**
