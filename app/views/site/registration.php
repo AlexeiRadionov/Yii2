@@ -14,7 +14,7 @@
 
     <?php $form = ActiveForm::begin(); ?>
 		<?php echo $form -> field($model, 'username'); ?>
-		<?php echo $form -> field($model, 'password'); ?>
+		<?php echo $form -> field($model, 'password') -> textinput(['type'=>'password']); ?>
 		<?php echo $form -> field($model, 'email') -> textinput(['type'=>'email']); ?>
     
         <div class="form-group">
