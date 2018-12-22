@@ -31,7 +31,7 @@ class UserController extends Controller {
                 'rules' => [
                     [
                     'allow' => true,
-                    'roles' => ['admin']
+                    'roles' => ['@']
                     ],
                 ],
             ]
@@ -42,10 +42,18 @@ class UserController extends Controller {
      * Lists all User models.
      * @return mixed
      */
-    public function actionIndex()
-    {
+    public function actionIndex() {
+        $find = User::find();
+        $isAdmin = Yii::$app->user->can('admin');
+            
+        if(!$isAdmin) {
+            $find = $find->where([
+                'id_user' => Yii::$app->user->id,
+            ]);
+        }
+
         $dataProvider = new ActiveDataProvider([
-            'query' => User::find(),
+            'query' => $find,
         ]);
 
         return $this->render('index', [
@@ -94,8 +102,9 @@ class UserController extends Controller {
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
+        
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
             return $this->redirect(['view', 'id' => $model->id_user]);
         }
 
