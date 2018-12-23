@@ -15,12 +15,19 @@ $config = [
     'components' => [
         'cache' => [
             'class' => 'yii\caching\FileCache',
+            'class' => 'yii\caching\MemCache',
+            'servers' => [
+                [
+                'host' => 'localhost',
+                'port' => 11211,
+                ],
+            ]
         ],
         'log' => [
             'targets' => [
                 [
                     'class' => 'yii\log\FileTarget',
-                    'levels' => ['error', 'warning'],
+                    'levels' => ['error', 'warning', 'info'],
                 ],
             ],
         ],
