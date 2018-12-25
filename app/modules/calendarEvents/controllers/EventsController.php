@@ -63,15 +63,15 @@ class EventsController extends Controller {
     }
 
     public function actionDay() {
-        $currentDate = date('Y-m-d');
+        $currentDate = Yii::$app->params['currentDate'];
         $day = new Day;
-        $day -> getCurrentDate($currentDate);
+        $day -> getCurrentDay($currentDate);
 
         $find = Events::find();
         $find = $find
                 ->andWhere(['id_user' => Yii::$app->user->id])
-                ->andWhere(["<=", "CAST(startDay AS DATE)", date('Y-m-d')])
-                ->andWhere([">=", "CAST(endDay AS DATE)", date('Y-m-d')]);
+                ->andWhere(["<=", "CAST(startDay AS DATE)", $currentDate])
+                ->andWhere([">=", "CAST(endDay AS DATE)", $currentDate]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $find,
