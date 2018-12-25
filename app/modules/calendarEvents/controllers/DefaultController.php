@@ -64,9 +64,9 @@
 	    }
 
 	    public function actionDay() {
-	    	$currentDate = date('Y-m-d H:i:s');
+	    	$currentDate = Yii::$app->params['currentDate'];
 	    	$day = new Day;
-	    	$day -> getCurrentDate($currentDate);
+	    	$day -> getCurrentDay($currentDate);
 	    	$eventsUser = Events::findAll([
 	    		'id_user' => Yii::$app -> user -> id
 	    	]);
