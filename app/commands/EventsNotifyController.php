@@ -12,8 +12,8 @@
             
             $events = Events::find()
                 ->with('user')
-                ->andWhere(["<=", "CAST(startDay AS DATE)", date('Y-m-d')])
-                ->andWhere([">=", "CAST(endDay AS DATE)", date('Y-m-d')])
+                ->andWhere(["<=", "CAST(startDay AS DATE)", Yii::$app->params['currentDate']])
+                ->andWhere([">=", "CAST(endDay AS DATE)", Yii::$app->params['currentDate']])
                 ->all();
             
             $userEvents = [];
