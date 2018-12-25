@@ -49,18 +49,24 @@
 	        }
 
 	    	$eventsUser = $find->all();
-
+	    	if (!isset($_SESSION['calendarDate'])) {
+	    		$calendarDate = date('Y-m-01');
+	    	} else {
+	    		$calendarDate = $_SESSION['calendarDate'];
+	    	}
+	    	
 	        return $this->render('index',
 	        	[
 	        		'eventsUser' => $eventsUser,
 	        		'date' => Yii::$app->params['dateFormatView'],
+	        		'calendarDate' => $calendarDate,
 	    		]);
 	    }
 
 	    public function actionDay() {
-	    	$currentDate = date('Y-m-d H:i:s');
+	    	$currentDate = Yii::$app->params['currentDate'];
 	    	$day = new Day;
-	    	$day -> getCurrentDate($currentDate);
+	    	$day -> getCurrentDay($currentDate);
 	    	$eventsUser = Events::findAll([
 	    		'id_user' => Yii::$app -> user -> id
 	    	]);
@@ -100,6 +106,27 @@
 
 		public function actionSuccess() {
 			return $this->render('submit');
+		}
+
+		public function actionMonth() {
+
+			if (isset($_SESSION['calendarDate'])) {
+				$calendarDate = $_SESSION['calendarDate'];
+			}
+						
+			if (isset($_GET['month'])) {
+				$month = $_GET['month'];
+			}
+
+			if ($month == 'prev') {
+				$calendarDate = date('Y-m-01', strtotime($calendarDate . '-1 month'));
+			} else if ($month == 'next') {
+				$calendarDate = date('Y-m-01', strtotime($calendarDate . '+1 month'));
+			}
+
+			$_SESSION['calendarDate'] = $calendarDate;
+		
+			return $this -> redirect(['index']);
 		}
 	}
 ?>

@@ -21,7 +21,7 @@
 			return !$this -> isWork();
 		}
 
-		public function getCurrentDate($currentDate) {
+		public function getCurrentDay($currentDate) {
 			$this -> currentDate = $currentDate;
 			if ($this -> isWeekend()) {
 				$this -> currentDay = 'weekend';
