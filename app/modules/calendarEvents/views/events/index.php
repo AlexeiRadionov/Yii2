@@ -6,6 +6,8 @@ use yii\grid\GridView;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
+$this->params['breadcrumbs'][] = ['url' => '/calendarEvents', 'label' => 'Calendar'];
+
 if ($day) {
     $this->title = 'Events today';
     $this->params['breadcrumbs'][] = ['url' => '/calendarEvents/events', 'label' => 'Events'];
@@ -29,7 +31,7 @@ $this->params['breadcrumbs'][] = ['url' => '/calendarEvents/user', 'label' => 'U
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Events', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Event', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
