@@ -6,27 +6,27 @@
     
     $eventsMonth = [];
     
-    $calendarDate = date('Y-m', strtotime($date->format('Y-m')));
+    $calendarDate = strtotime(date('Y-m', strtotime($date->format('Y-m'))));
     
     foreach ($activities as $value) {
         foreach ($value as $item) {
             
             if (
-                (date('Y-m', strtotime($item['startDay'])) == $calendarDate
-                || date('Y-m', strtotime($item['endDay'])) == $calendarDate)
-                || (strtotime(date('Y-m', strtotime($item['startDay']))) < strtotime($calendarDate)
-                && strtotime(date('Y-m', strtotime($item['endDay']))) > strtotime($calendarDate))
+                (strtotime(date('Y-m', strtotime($item['startDay']))) == $calendarDate
+                || strtotime(date('Y-m', strtotime($item['endDay']))) == $calendarDate)
+                || (strtotime(date('Y-m', strtotime($item['startDay']))) < $calendarDate
+                && strtotime(date('Y-m', strtotime($item['endDay']))) > $calendarDate)
             ) {
 
                 $count = date('Y-m-d', strtotime($item['startDay']));
 
-                while (date('Y-m', strtotime($count)) != $calendarDate) {
+                while (strtotime(date('Y-m', strtotime($count))) != $calendarDate) {
 
                     $count = date('Y-m-d', strtotime($count . '+1 days'));
 
                 }
            
-                while ($count <= date('Y-m-d', strtotime($item['endDay'])) && date('Y-m', strtotime($count)) == $calendarDate) {
+                while (strtotime($count) <= strtotime(date('Y-m-d', strtotime($item['endDay']))) && strtotime(date('Y-m', strtotime($count))) == $calendarDate) {
                     
                     $numberDay = (int)date('j', strtotime($count));
                     
@@ -40,7 +40,8 @@
 ?>
 
 <table class="table table-bordered">
-    <tr><th style="text-align: center;" colspan='7'>
+    <tr>
+        <th style="text-align: center;" colspan='7'>
             <a style="float: left;" href="/calendarEvents/default/month?month=prev">Prev</a>
             <?php echo $date->format('F Y'); ?>
             <a style="float: right;" href="/calendarEvents/default/month?month=next">Next</a>
@@ -58,25 +59,33 @@
     
     <tr>
         <?php for($i = 1, $day = 1; $i <= $cellCount; $i ++): ?>
-            <td style="vertical-align: bottom;">
+            
+            <?php if ($calendarDate == strtotime(date('Y-m')) && $day == (int)date('j')): ?>
+                
+                <td style="vertical-align: bottom; border: 2px solid red;">
+
+            <?php else: ?>
+                <td style="vertical-align: bottom;">
+            <?php endif; ?>
+                
                 <?php if( $i >= $firstDay && $day <= $totalDay ):?>
                     
                     <ul>
-                    <?php foreach ($eventsMonth as $value): ?>
+                        <?php foreach ($eventsMonth as $value): ?>
 
-                        <?php foreach ($value as $key => $item): ?>
-                        
-                            <?php if($key == $day): ?>
-                                           
+                            <?php foreach ($value as $key => $item): ?>
+                            
+                                <?php if($key == $day): ?>
+                                               
                                     <li>
                                         <?php echo '<a href="/calendarEvents/events/view?id=' . $item[1] . '">' . $item[0]; ?></a>
                                     </li>
-                                               
-                            <?php endif;?>
+                                                   
+                                <?php endif; ?>
 
+                            <?php endforeach; ?>
+                            
                         <?php endforeach; ?>
-                        
-                    <?php endforeach; ?>
                     </ul>
                     
                     <?php  echo $day++; ?>
