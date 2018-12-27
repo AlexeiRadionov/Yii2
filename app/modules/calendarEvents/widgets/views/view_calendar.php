@@ -63,7 +63,7 @@
     <tr>
         <?php for($i = 1, $day = 0; $i <= $cellCount; $i ++): ?>
             
-           <?php if ($calendarDate == strtotime(date('Y-m')) && $day == (int)date('j')): ?>
+           <?php if ($calendarDate == strtotime(date('Y-m')) && ($day + 1) == (int)date('j')): ?>
                 
                 <td class="currentDay">
             
