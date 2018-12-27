@@ -46,7 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             //'id_user',
             'description:ntext',
-            'isBlock',
+            //'isBlock',
             'created_at',
             'updated_at'
         ],
