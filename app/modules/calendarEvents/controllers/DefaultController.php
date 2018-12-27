@@ -4,8 +4,6 @@
 	use Yii;
 	use app\modules\calendarEvents\models\Events;
 	use yii\filters\AccessControl;
-	use app\modules\calendarEvents\models\EventsDAO;
-	use app\modules\calendarEvents\models\Day;
 	use yii\web\Controller;
 
 	/**
@@ -62,51 +60,6 @@
 	        		'calendarDate' => $calendarDate,
 	    		]);
 	    }
-
-	    public function actionDay() {
-	    	$currentDate = Yii::$app->params['currentDate'];
-	    	$day = new Day;
-	    	$day -> getCurrentDay($currentDate);
-	    	$eventsUser = Events::findAll([
-	    		'id_user' => Yii::$app -> user -> id
-	    	]);
-	    	$day -> getEventsDay($eventsUser);
-
-	    	return $this->render('viewDay', 
-	    		[
-	    			'day' => $day -> currentDay,
-	    			'eventsDay' => $day -> eventsDay,
-	    			'date' => Yii::$app->params['dateFormatView'],
-	    		]);
-	    }
-
-	    public function actionForm() {
-		    $model = new \app\modules\calendarEvents\models\Events();
-		    if (isset($_GET['id'])) {
-		        $id_events = (int)strip_tags($_GET['id']);
-		    } else {
-		    	$id_events = 0;
-		    }
-
-		    if ($model->load(Yii::$app->request->post())) {
-		    	$model -> id_user = Yii::$app -> user -> id;
-		        if ($model->validate()) {
-		        	$event = new EventsDAO;
-		        	
-		        	if ($event -> createEvent($model, $model -> id_user, $id_events)) {
-		        		return $this -> redirect(['success']);
-		        	}
-		        }
-		    }
-
-		    return $this->render('form', [
-		        'model' => $model,
-		    ]);
-		}
-
-		public function actionSuccess() {
-			return $this->render('submit');
-		}
 
 		public function actionMonth() {
 
