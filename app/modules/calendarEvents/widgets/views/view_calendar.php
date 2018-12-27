@@ -1,4 +1,6 @@
 <?php
+    use yii\helpers\Html;
+
     $first = $date->modify('first day of this month');
     $firstDay = ($first->format('w') + 7) % 7;
     $totalDay = $first->format('t');
@@ -41,35 +43,36 @@
 
 <table class="table table-bordered">
     <tr>
-        <th style="text-align: center;" colspan='7'>
-            <a style="float: left;" href="/calendarEvents/default/month?month=prev">Prev</a>
+        <th colspan='7'>
+            <?= Html::a('Prev', ['month?month=prev'], ['class' => 'prev']) ?>
+            <?= Html::a('Next', ['month?month=next'], ['class' => 'next']) ?>
+
             <?php echo $date->format('F Y'); ?>
-            <a style="float: right;" href="/calendarEvents/default/month?month=next">Next</a>
         </th>
     </tr>
     <tr>
-        <th>ПН</th>
-        <th>ВТ</th>
-        <th>СР</th>
-        <th>ЧТ</th>
-        <th>ПТ</th>
-        <th>СБ</th>
-        <th>ВС</th>
+        <th>Mon</th>
+        <th>Tue</th>
+        <th>Wed</th>
+        <th>Thu</th>
+        <th>Fri</th>
+        <th>Sat</th>
+        <th>Sun</th>
     </tr>
     
     <tr>
-        <?php for($i = 1, $day = 1; $i <= $cellCount; $i ++): ?>
+        <?php for($i = 1, $day = 0; $i <= $cellCount; $i ++): ?>
             
-            <?php if ($calendarDate == strtotime(date('Y-m')) && $day == (int)date('j')): ?>
+           <?php if ($calendarDate == strtotime(date('Y-m')) && $day == (int)date('j')): ?>
                 
-                <td style="vertical-align: bottom; border: 2px solid red;">
-
+                <td class="currentDay">
+            
             <?php else: ?>
-                <td style="vertical-align: bottom;">
+                <td class="otherDay">
             <?php endif; ?>
                 
-                <?php if( $i >= $firstDay && $day <= $totalDay ):?>
-                    
+                <?php if( $i >= $firstDay && $day < $totalDay ):?>
+                    <?php  echo ++$day; ?>
                     <ul>
                         <?php foreach ($eventsMonth as $value): ?>
 
@@ -78,7 +81,7 @@
                                 <?php if($key == $day): ?>
                                                
                                     <li>
-                                        <?php echo '<a href="/calendarEvents/events/view?id=' . $item[1] . '">' . $item[0]; ?></a>
+                                        <?php echo '<a class="event" href="/calendarEvents/events/' . $item[1] . '">' . $item[0]; ?></a>
                                     </li>
                                                    
                                 <?php endif; ?>
@@ -88,7 +91,7 @@
                         <?php endforeach; ?>
                     </ul>
                     
-                    <?php  echo $day++; ?>
+                    
                 <?php endif; ?>
             </td>
 
@@ -100,3 +103,11 @@
         <?php endfor; ?>
     </tr>
 </table>
+
+<script>
+    var events = document.getElementsByClassName('event');
+    for (var i = 0; i < events.length; i++) {
+        var cellWithEvent = events[i].parentNode.parentNode.parentNode;
+        cellWithEvent.setAttribute('class', 'cellWithEvent');       
+    }
+</script>
