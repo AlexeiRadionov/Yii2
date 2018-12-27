@@ -133,7 +133,7 @@ class SiteController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             if ($model->validate()) {
                 if ($model -> createUser($model)) {
-                    return $this -> redirect(['index']);
+                    return $this -> redirect(['/calendarEvents']);
                 }
             }
         }
