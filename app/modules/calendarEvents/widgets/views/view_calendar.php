@@ -108,6 +108,6 @@
     var events = document.getElementsByClassName('event');
     for (var i = 0; i < events.length; i++) {
         var cellWithEvent = events[i].parentNode.parentNode.parentNode;
-        cellWithEvent.setAttribute('class', 'cellWithEvent');       
+        cellWithEvent.classList.add('cellWithEvent');       
     }
 </script>
