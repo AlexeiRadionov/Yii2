@@ -38,9 +38,9 @@ AppAsset::register($this);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
+            /*['label' => 'Home', 'url' => ['/calendarEvents']],
             ['label' => 'About', 'url' => ['/site/about']],
-            ['label' => 'Contact', 'url' => ['/site/contact']],
+            ['label' => 'Contact', 'url' => ['/site/contact']],*/
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]
             ) : (
@@ -63,7 +63,7 @@ AppAsset::register($this);
 
     <div class="container">
         <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [], 'homeLink' => false,
         ]) ?>
         <?= Alert::widget() ?>
         <?= $content ?>

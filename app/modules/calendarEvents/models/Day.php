@@ -1,15 +1,11 @@
 <?php
 	namespace app\modules\calendarEvents\models;
-	use app\modules\calendarEvents\models\Events;
+	
+	use yii\base\Model;
 
-	class Day extends Events {
+	class Day extends Model {
 		public $currentDate;
-		public $eventsDay = [];
 		public $currentDay;
-
-		public function __construct($config=[]) {
-	    	parent::__construct($config);
-	    }
 
 		public function isWork() {
 			$w = date_create($this -> currentDate) -> format('w');
@@ -27,14 +23,6 @@
 				$this -> currentDay = 'weekend';
 			} else {
 				$this -> currentDay = 'work day';
-			}
-		}
-
-		public function getEventsDay($eventsUser) {
-			foreach ($eventsUser as $key => $value) {
-				if (strtotime($value['startDay']) <= strtotime($this -> currentDate) && strtotime($this -> currentDate) <= strtotime($value['endDay'])) {
-					array_push($this -> eventsDay, $value);
-				}
 			}
 		}
 	}

@@ -22,7 +22,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
 
-    <?php echo $form -> field($model, 'isBlock') -> checkbox(); ?>
+    <!-- <?php echo $form -> field($model, 'isBlock') -> checkbox(); ?> -->
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

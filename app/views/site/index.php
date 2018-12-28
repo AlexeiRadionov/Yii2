@@ -4,8 +4,6 @@
 
 $this->title = 'My Yii Application';
 ?>
-<a class="btn btn-primary" href="/calendarEvents">Calendar events</a>
-<hr>
 
 <div class="site-index">
 

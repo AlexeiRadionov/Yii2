@@ -12,6 +12,8 @@ $config = [
         '@npm'   => '@vendor/npm-asset',
     ],
 
+    'defaultRoute' => '/calendarEvents',
+
     'modules' => [
         'calendarEvents' => [
             'class' => 'app\modules\calendarEvents\Module',
@@ -62,6 +64,8 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                'calendarEvents/events/<id:\d+>' => 'calendarEvents/events/view',
+                'calendarEvents/user/<id:\d+>' => 'calendarEvents/user/view',
             ],
         ],
 

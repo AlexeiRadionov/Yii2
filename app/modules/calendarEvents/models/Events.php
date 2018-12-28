@@ -18,7 +18,7 @@
 	            		return $model -> startDay;
 	            }],
 	            ['id_user', 'default', 'value' => Yii::$app -> user -> id],
-	            ['isBlock', 'boolean']
+	            //['isBlock', 'boolean']
 	        ];
 	    }
 
